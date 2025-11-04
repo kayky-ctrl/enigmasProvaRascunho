@@ -42,7 +42,9 @@
             <div class="page-content" v-if="currentPage === 'home'" key="home">
                 <div class="container">
                     <h2>Bem-vindo ao Desafio!</h2>
-                    <p class="intro-text">Explore enigmas e teste sua mente. Navegue pelas seções para começar.</p>
+                    <p class="intro-text">Aqui você encontrará uma coleção de desafios intrigantes organizados por níveis de dificuldade. Explore os enigmas filtrando por nível ou navegando por nossa lista completa.</p>
+
+                    <p class="intro-text">Neste jogo são necessárias pelo menos duas pessoas: Pelo menos um Detetive para adivinhar o enigma e o Anfitrião para responder às perguntas sobre enigma e auxiliar o(s) Detetive(s). O detetive terá acesso apenas ao contexto inicial do enigma e poderá fazer perguntas ao Anfitrião, que somente poderá responder com SIM ou NÃO. O jogo acaba quando o cenário informado é descoberto pelo(s) Detetive(s)</p>
 
                     <h3>Como Jogar</h3>
                     <div class="instructions-cards">
@@ -66,7 +68,7 @@
 
             <div class="page-content" v-else-if="currentPage === 'selection'" key="selection">
                 <div class="container">
-                    <h2>Seleção de Enigmas</h2>
+                    <h2>Escolha um nível</h2>
 
                     <nav class="level-nav" aria-label="Seleção de nível">
                         <ul class="level-buttons">
@@ -83,11 +85,6 @@
                             <li>
                                 <button @click="selectLevel(3)" :class="{ active: selectedLevel === 3 }">
                                     Nível 3
-                                </button>
-                            </li>
-                            <li>
-                                <button @click="selectLevel(3)" :class="{ active: selectedLevel === 4 }">
-                                    Nível 4
                                 </button>
                             </li>
                         </ul>
@@ -122,14 +119,14 @@
                         <p class="enigma-context">{{ selectedEnigma.contexto }}</p>
 
                         <div class="solution-card">
+                            <button class="btn-secondary" @click="showSolution = !showSolution">
+                                {{ showSolution ? 'Ocultar Solução' : 'Ver Solução' }}
+                            </button>
                             <transition name="fade">
                                 <p v-if="showSolution" class="solution-text">
                                     {{ selectedEnigma.solucao }}
                                 </p>
                             </transition>
-                            <button class="btn-secondary" @click="showSolution = !showSolution">
-                                {{ showSolution ? 'Ocultar Solução' : 'Ver Solução' }}
-                            </button>
                         </div>
                     </article>
                 </div>
@@ -151,7 +148,8 @@
                             <tbody>
                                 <tr v-for="enigma in enigmas" :key="enigma.id">
                                     <td data-label="Título">{{ enigma.titulo }}</td>
-                                    <td data-label="Resumo">{{ enigma.contexto.substring(0, 30) }}...</td>
+                                    <td data-label="Resumo">{{ enigma.contexto.substring(0, 60) }} ...
+                                    </td>
                                     <td data-label="Nível">{{ enigma.dificuldade }}</td>
                                 </tr>
                             </tbody>
@@ -163,9 +161,7 @@
         </main>
 
         <footer class="site-footer">
-            <div class="container">
                 <p>Kayky Rodrigues de Paula &copy; 2025</p>
-            </div>
         </footer>
     </div>
 
